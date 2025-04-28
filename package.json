@@ -1,0 +1,16 @@
+{
+  "name": "automation_practice_suite",
+  "version": "1.0.0",
+  "description": "This is the repository for creating and practicing various automation tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.2"
+  }
+}
