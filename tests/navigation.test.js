@@ -1,23 +1,18 @@
 import { test, expect } from '@playwright/test';
+import {navigateToSectionByIcon,loginDashboard,logoutDashboard} from '../helper';
 
-// Basic dashboard navigation test
+test('Dashboard navigation via icons', async ({ page }) => {
 
-test('Dashboard navigation', async ({ page }) => {
-  await page.goto('https://demo.haroldwaste.com/');
-
-  // Login first
-  await page.locator("//input[@name='email']").fill('qa@julesai.com');
-  await page.locator("//input[@name='password']").fill('QaJULES2023!');
-  await page.locator("//button[@data-test-id='signin']").click();
-
-  // Navigate to different sections
-  const sections = [
-    { name: 'Purchase List', xpath: "//a[text()='Purchase List']" },
-    { name: 'Opportunity', xpath: "//a[text()='Opportunity']" }
-  ];
-
-  for (const section of sections) {
-    await page.locator(section.xpath).click();
-    await expect(page).toHaveURL(new RegExp(section.name.toLowerCase().replace(' ', '')));
-  }
+  await loginDashboard(page, 'qa@julesai.com', 'QaJULES2023!')
+  // -------- NAVIGATION using icons --------
+  await navigateToSectionByIcon(page, 'LibraryBooksIcon','Suppliers & Sites'); 
+  await navigateToSectionByIcon(page, 'ShoppingCartIcon','Purchase');
+  await navigateToSectionByIcon(page, 'LocalOfferIcon','Sale');
+  await navigateToSectionByIcon(page, 'WarehouseIcon','Inbound loads');
+  await navigateToSectionByIcon(page, 'VerifiedUserIcon','Hedging contracts'); 
+  await navigateToSectionByIcon(page, 'HeadsetMicIcon','Planning/Booking');
+  await navigateToSectionByIcon(page, 'LocalShippingIcon','Rate management');
+  await navigateToSectionByIcon(page, 'RequestQuoteIcon','Invoices');
+  await navigateToSectionByIcon(page, 'CheckBoxIcon','Notes');
+  await navigateToSectionByIcon(page, 'DashboardIcon','Dashboards');
 });
