@@ -1,0 +1,254 @@
+{
+	"info": {
+		"_postman_id": "e6670be3-cd4e-453f-9f27-5c0f00691c50",
+		"name": "API_Automation_Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11577072"
+	},
+	"item": [
+		{
+			"name": "Login-Failure",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": \"mutation { login(input: {email: \\\"qa@julesai.com\\\", password: \\\"QaJULES2023!\\\"}) { token user { id email } } }\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demo.api.julesai.com/graphql",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"api",
+						"julesai",
+						"com"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch User Profile",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User Name matches expected\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.me.name).to.eql(\"Sup_1782\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": \"query { me { id name email } }\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demo.api.julesai.com/graphql\n",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"api",
+						"julesai",
+						"com"
+					],
+					"path": [
+						"graphql\n"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test-400",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": \"mutation { login(email: \\\"qa@julesai.com\\\" password: \\\"QaJULES2023!\\\") { token } }\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demo.api.julesai.com/graphql\n",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"api",
+						"julesai",
+						"com"
+					],
+					"path": [
+						"graphql\n"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test-401",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should return 401 Unauthorized\", () => {",
+							"  var json = pm.response.json();",
+							"  pm.expect(json.errors[0].message).to.include(\"UNAUTHORIZED\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": \"query { getUser { id name email } }\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demo.api.julesai.com/graphql\n",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"api",
+						"julesai",
+						"com"
+					],
+					"path": [
+						"graphql\n"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test-500",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should return 500 or internal error\", () => {",
+							"  var json = pm.response.json();",
+							"  pm.expect(json.errors[0].message).to.include(\"INTERNAL_SERVER_ERROR\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": \"mutation { login(email: null, password: \\\"QaJULES2023!\\\") { token } }\"\n}\n\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demo.api.julesai.com/graphql\n",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"api",
+						"julesai",
+						"com"
+					],
+					"path": [
+						"graphql\n"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
